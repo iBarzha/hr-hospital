@@ -1,0 +1,16 @@
+<odoo>
+    <record id="disease_influenza" model="hr.hospital.disease">
+        <field name="name">Influenza</field>
+        <field name="description">Viral infection that attacks respiratory system</field>
+    </record>
+
+    <record id="disease_hypertension" model="hr.hospital.disease">
+        <field name="name">Hypertension</field>
+        <field name="description">High blood pressure condition</field>
+    </record>
+
+    <record id="disease_diabetes" model="hr.hospital.disease">
+        <field name="name">Diabetes Mellitus</field>
+        <field name="description">Chronic metabolic disorder affecting blood sugar levels</field>
+    </record>
+</odoo>

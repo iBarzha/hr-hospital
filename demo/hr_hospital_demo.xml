@@ -1,0 +1,52 @@
+<odoo>
+        <record id="doctor_demo_1" model="hr.hospital.doctor">
+            <field name="name">Dr. John Smith</field>
+            <field name="specialty">Cardiology</field>
+            <field name="phone">+1-555-0101</field>
+            <field name="email">john.smith@hospital.com</field>
+        </record>
+
+        <record id="doctor_demo_2" model="hr.hospital.doctor">
+            <field name="name">Dr. Sarah Johnson</field>
+            <field name="specialty">Pediatrics</field>
+            <field name="phone">+1-555-0102</field>
+            <field name="email">sarah.johnson@hospital.com</field>
+        </record>
+
+        <record id="doctor_demo_3" model="hr.hospital.doctor">
+            <field name="name">Dr. Michael Brown</field>
+            <field name="specialty">General Practice</field>
+            <field name="phone">+1-555-0103</field>
+            <field name="email">michael.brown@hospital.com</field>
+        </record>
+
+        <record id="patient_demo_1" model="hr.hospital.patient">
+            <field name="name">Anna Williams</field>
+            <field name="date_of_birth">1985-03-15</field>
+            <field name="gender">female</field>
+            <field name="doctor_id" ref="doctor_demo_1"/>
+            <field name="phone">+1-555-1001</field>
+            <field name="email">anna.williams@email.com</field>
+            <field name="address">123 Main Street, New York, NY 10001</field>
+        </record>
+
+        <record id="patient_demo_2" model="hr.hospital.patient">
+            <field name="name">Robert Davis</field>
+            <field name="date_of_birth">1978-07-22</field>
+            <field name="gender">male</field>
+            <field name="doctor_id" ref="doctor_demo_1"/>
+            <field name="phone">+1-555-1002</field>
+            <field name="email">robert.davis@email.com</field>
+            <field name="address">456 Oak Avenue, Los Angeles, CA 90001</field>
+        </record>
+
+        <record id="patient_demo_3" model="hr.hospital.patient">
+            <field name="name">Emily Wilson</field>
+            <field name="date_of_birth">1992-11-08</field>
+            <field name="gender">female</field>
+            <field name="doctor_id" ref="doctor_demo_2"/>
+            <field name="phone">+1-555-1003</field>
+            <field name="email">emily.wilson@email.com</field>
+            <field name="address">789 Pine Road, Chicago, IL 60601</field>
+        </record>
+</odoo>
