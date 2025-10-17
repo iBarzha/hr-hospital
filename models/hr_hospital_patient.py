@@ -8,7 +8,7 @@ class HrHospitalPatient(models.Model):
     name = fields.Char(required=True)
     date_of_birth = fields.Date()
     age = fields.Integer(compute='_compute_age')
-    gender = fields.Selection([
+    gender = fields.Selection(selection=[
         ('male', 'Male'),
         ('female', 'Female'),
         ('other', 'Other')

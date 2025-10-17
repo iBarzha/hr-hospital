@@ -9,7 +9,7 @@ class HrHospitalVisit(models.Model):
         comodel_name='hr.hospital.patient', required=True)
     doctor_id = fields.Many2one(
         comodel_name='hr.hospital.doctor', required=True)
-    disease_id = fields.Many2one('hr.hospital.disease')
+    disease_id = fields.Many2one(comodel_name='hr.hospital.disease')
     visit_date = fields.Datetime(required=True, default=fields.Datetime.now)
     diagnosis = fields.Text()
     prescription = fields.Text()
