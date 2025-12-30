@@ -1,15 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="view_hr_hospital_patient_tree" model="ir.ui.view">
         <field name="name">hr.hospital.patient.tree</field>
         <field name="model">hr.hospital.patient</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
+                <field name="full_name"/>
                 <field name="date_of_birth"/>
                 <field name="age"/>
                 <field name="gender"/>
-                <field name="doctor_id"/>
+                <field name="personal_doctor_id"/>
                 <field name="phone"/>
+                <field name="blood_type"/>
             </tree>
         </field>
     </record>
@@ -20,25 +22,94 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <field name="image_1920" widget="image" class="oe_avatar"
+                           options="{'preview_image': 'image_128'}"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="full_name" readonly="1"/>
+                        </h1>
+                    </div>
                     <group>
-                        <group>
-                            <field name="name"/>
+                        <group string="Personal Information">
+                            <field name="last_name"/>
+                            <field name="first_name"/>
+                            <field name="middle_name"/>
                             <field name="date_of_birth"/>
                             <field name="age"/>
                             <field name="gender"/>
+                            <field name="passport_data"/>
                         </group>
-                        <group>
-                            <field name="doctor_id"/>
+                        <group string="Contact Information">
                             <field name="phone"/>
                             <field name="email"/>
-                            <field name="active"/>
+                            <field name="country_id"/>
+                            <field name="lang_id"/>
+                            <field name="contact_person_id"/>
                         </group>
                     </group>
                     <group>
-                        <field name="address"/>
+                        <group string="Medical Information">
+                            <field name="blood_type"/>
+                            <field name="personal_doctor_id"/>
+                            <field name="allergies"/>
+                        </group>
+                        <group string="Insurance">
+                            <field name="insurance_company_id"/>
+                            <field name="insurance_policy_number"/>
+                            <field name="active"/>
+                        </group>
                     </group>
+                    <notebook>
+                        <page string="Visits" name="visits">
+                            <field name="visit_ids" readonly="1">
+                                <tree>
+                                    <field name="scheduled_datetime"/>
+                                    <field name="doctor_id"/>
+                                    <field name="visit_type"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Doctor History" name="doctor_history">
+                            <field name="doctor_history_ids" readonly="1">
+                                <tree>
+                                    <field name="doctor_id"/>
+                                    <field name="date_assigned"/>
+                                    <field name="date_changed"/>
+                                    <field name="change_reason"/>
+                                    <field name="active"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="view_hr_hospital_patient_search" model="ir.ui.view">
+        <field name="name">hr.hospital.patient.search</field>
+        <field name="model">hr.hospital.patient</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="full_name"/>
+                <field name="personal_doctor_id"/>
+                <field name="phone"/>
+                <filter string="Has Allergies"
+                        name="has_allergies"
+                        domain="[('allergies', '!=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Personal Doctor"
+                            name="group_doctor"
+                            context="{'group_by': 'personal_doctor_id'}"/>
+                    <filter string="Blood Type"
+                            name="group_blood"
+                            context="{'group_by': 'blood_type'}"/>
+                    <filter string="Gender"
+                            name="group_gender"
+                            context="{'group_by': 'gender'}"/>
+                </group>
+            </search>
         </field>
     </record>
 

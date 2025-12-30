@@ -1,52 +1,1404 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <record id="doctor_demo_1" model="hr.hospital.doctor">
-            <field name="name">Dr. John Smith</field>
-            <field name="specialty">Cardiology</field>
-            <field name="phone">+1-555-0101</field>
-            <field name="email">john.smith@hospital.com</field>
-        </record>
+    <!-- 5 Doctor Specialities -->
+    <record id="speciality_cardiology" model="doctor.speciality">
+        <field name="name">Cardiology</field>
+        <field name="code">CARD</field>
+        <field name="description">Heart and cardiovascular system disorders</field>
+    </record>
 
-        <record id="doctor_demo_2" model="hr.hospital.doctor">
-            <field name="name">Dr. Sarah Johnson</field>
-            <field name="specialty">Pediatrics</field>
-            <field name="phone">+1-555-0102</field>
-            <field name="email">sarah.johnson@hospital.com</field>
-        </record>
+    <record id="speciality_pediatrics" model="doctor.speciality">
+        <field name="name">Pediatrics</field>
+        <field name="code">PED</field>
+        <field name="description">Medical care of infants, children, and adolescents</field>
+    </record>
 
-        <record id="doctor_demo_3" model="hr.hospital.doctor">
-            <field name="name">Dr. Michael Brown</field>
-            <field name="specialty">General Practice</field>
-            <field name="phone">+1-555-0103</field>
-            <field name="email">michael.brown@hospital.com</field>
-        </record>
+    <record id="speciality_neurology" model="doctor.speciality">
+        <field name="name">Neurology</field>
+        <field name="code">NEUR</field>
+        <field name="description">Disorders of the nervous system</field>
+    </record>
 
-        <record id="patient_demo_1" model="hr.hospital.patient">
-            <field name="name">Anna Williams</field>
-            <field name="date_of_birth">1985-03-15</field>
-            <field name="gender">female</field>
-            <field name="doctor_id" ref="doctor_demo_1"/>
-            <field name="phone">+1-555-1001</field>
-            <field name="email">anna.williams@email.com</field>
-            <field name="address">123 Main Street, New York, NY 10001</field>
-        </record>
+    <record id="speciality_general" model="doctor.speciality">
+        <field name="name">General Practice</field>
+        <field name="code">GP</field>
+        <field name="description">Primary healthcare and general medical care</field>
+    </record>
 
-        <record id="patient_demo_2" model="hr.hospital.patient">
-            <field name="name">Robert Davis</field>
-            <field name="date_of_birth">1978-07-22</field>
-            <field name="gender">male</field>
-            <field name="doctor_id" ref="doctor_demo_1"/>
-            <field name="phone">+1-555-1002</field>
-            <field name="email">robert.davis@email.com</field>
-            <field name="address">456 Oak Avenue, Los Angeles, CA 90001</field>
-        </record>
+    <record id="speciality_surgery" model="doctor.speciality">
+        <field name="name">Surgery</field>
+        <field name="code">SURG</field>
+        <field name="description">Operative procedures and surgical interventions</field>
+    </record>
 
-        <record id="patient_demo_3" model="hr.hospital.patient">
-            <field name="name">Emily Wilson</field>
-            <field name="date_of_birth">1992-11-08</field>
-            <field name="gender">female</field>
-            <field name="doctor_id" ref="doctor_demo_2"/>
-            <field name="phone">+1-555-1003</field>
-            <field name="email">emily.wilson@email.com</field>
-            <field name="address">789 Pine Road, Chicago, IL 60601</field>
-        </record>
+    <!-- 8 Doctors (6 regular + 2 interns) -->
+    <record id="doctor_smith" model="hr.hospital.doctor">
+        <field name="last_name">Smith</field>
+        <field name="first_name">John</field>
+        <field name="middle_name">William</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1975-03-15</field>
+        <field name="phone">+380501234501</field>
+        <field name="email">john.smith@hospital.com</field>
+        <field name="speciality_id" ref="speciality_cardiology"/>
+        <field name="license_number">LIC-001-CARD</field>
+        <field name="license_date">2005-06-20</field>
+        <field name="rating">4.8</field>
+        <field name="is_intern" eval="False"/>
+    </record>
+
+    <record id="doctor_johnson" model="hr.hospital.doctor">
+        <field name="last_name">Johnson</field>
+        <field name="first_name">Sarah</field>
+        <field name="middle_name">Elizabeth</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1980-07-22</field>
+        <field name="phone">+380501234502</field>
+        <field name="email">sarah.johnson@hospital.com</field>
+        <field name="speciality_id" ref="speciality_pediatrics"/>
+        <field name="license_number">LIC-002-PED</field>
+        <field name="license_date">2008-09-15</field>
+        <field name="rating">4.9</field>
+        <field name="is_intern" eval="False"/>
+    </record>
+
+    <record id="doctor_williams" model="hr.hospital.doctor">
+        <field name="last_name">Williams</field>
+        <field name="first_name">Michael</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1978-11-08</field>
+        <field name="phone">+380501234503</field>
+        <field name="email">michael.williams@hospital.com</field>
+        <field name="speciality_id" ref="speciality_neurology"/>
+        <field name="license_number">LIC-003-NEUR</field>
+        <field name="license_date">2006-03-10</field>
+        <field name="rating">4.7</field>
+        <field name="is_intern" eval="False"/>
+    </record>
+
+    <record id="doctor_brown" model="hr.hospital.doctor">
+        <field name="last_name">Brown</field>
+        <field name="first_name">Emily</field>
+        <field name="middle_name">Rose</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1982-05-30</field>
+        <field name="phone">+380501234504</field>
+        <field name="email">emily.brown@hospital.com</field>
+        <field name="speciality_id" ref="speciality_general"/>
+        <field name="license_number">LIC-004-GP</field>
+        <field name="license_date">2010-01-25</field>
+        <field name="rating">4.6</field>
+        <field name="is_intern" eval="False"/>
+    </record>
+
+    <record id="doctor_davis" model="hr.hospital.doctor">
+        <field name="last_name">Davis</field>
+        <field name="first_name">Robert</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1970-09-12</field>
+        <field name="phone">+380501234505</field>
+        <field name="email">robert.davis@hospital.com</field>
+        <field name="speciality_id" ref="speciality_surgery"/>
+        <field name="license_number">LIC-005-SURG</field>
+        <field name="license_date">2000-08-05</field>
+        <field name="rating">4.95</field>
+        <field name="is_intern" eval="False"/>
+    </record>
+
+    <record id="doctor_wilson" model="hr.hospital.doctor">
+        <field name="last_name">Wilson</field>
+        <field name="first_name">Anna</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1985-12-03</field>
+        <field name="phone">+380501234506</field>
+        <field name="email">anna.wilson@hospital.com</field>
+        <field name="speciality_id" ref="speciality_cardiology"/>
+        <field name="license_number">LIC-006-CARD</field>
+        <field name="license_date">2012-04-18</field>
+        <field name="rating">4.5</field>
+        <field name="is_intern" eval="False"/>
+    </record>
+
+    <!-- 2 Interns with mentors -->
+    <record id="doctor_intern_miller" model="hr.hospital.doctor">
+        <field name="last_name">Miller</field>
+        <field name="first_name">David</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1995-06-15</field>
+        <field name="phone">+380501234507</field>
+        <field name="email">david.miller@hospital.com</field>
+        <field name="speciality_id" ref="speciality_cardiology"/>
+        <field name="license_number">LIC-007-INT</field>
+        <field name="license_date">2023-09-01</field>
+        <field name="rating">4.0</field>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_smith"/>
+    </record>
+
+    <record id="doctor_intern_taylor" model="hr.hospital.doctor">
+        <field name="last_name">Taylor</field>
+        <field name="first_name">Jessica</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1996-02-28</field>
+        <field name="phone">+380501234508</field>
+        <field name="email">jessica.taylor@hospital.com</field>
+        <field name="speciality_id" ref="speciality_pediatrics"/>
+        <field name="license_number">LIC-008-INT</field>
+        <field name="license_date">2023-09-01</field>
+        <field name="rating">4.2</field>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_johnson"/>
+    </record>
+
+    <!-- 10 Contact Persons -->
+    <record id="contact_person_1" model="contact.person">
+        <field name="last_name">Anderson</field>
+        <field name="first_name">James</field>
+        <field name="phone">+380671111001</field>
+        <field name="email">james.anderson@email.com</field>
+        <field name="relationship">Spouse</field>
+        <field name="gender">male</field>
+    </record>
+
+    <record id="contact_person_2" model="contact.person">
+        <field name="last_name">Thomas</field>
+        <field name="first_name">Maria</field>
+        <field name="phone">+380671111002</field>
+        <field name="email">maria.thomas@email.com</field>
+        <field name="relationship">Mother</field>
+        <field name="gender">female</field>
+    </record>
+
+    <record id="contact_person_3" model="contact.person">
+        <field name="last_name">Jackson</field>
+        <field name="first_name">Peter</field>
+        <field name="phone">+380671111003</field>
+        <field name="email">peter.jackson@email.com</field>
+        <field name="relationship">Father</field>
+        <field name="gender">male</field>
+    </record>
+
+    <record id="contact_person_4" model="contact.person">
+        <field name="last_name">White</field>
+        <field name="first_name">Linda</field>
+        <field name="phone">+380671111004</field>
+        <field name="email">linda.white@email.com</field>
+        <field name="relationship">Sister</field>
+        <field name="gender">female</field>
+    </record>
+
+    <record id="contact_person_5" model="contact.person">
+        <field name="last_name">Harris</field>
+        <field name="first_name">Mark</field>
+        <field name="phone">+380671111005</field>
+        <field name="email">mark.harris@email.com</field>
+        <field name="relationship">Brother</field>
+        <field name="gender">male</field>
+    </record>
+
+    <record id="contact_person_6" model="contact.person">
+        <field name="last_name">Martin</field>
+        <field name="first_name">Susan</field>
+        <field name="phone">+380671111006</field>
+        <field name="email">susan.martin@email.com</field>
+        <field name="relationship">Daughter</field>
+        <field name="gender">female</field>
+    </record>
+
+    <record id="contact_person_7" model="contact.person">
+        <field name="last_name">Garcia</field>
+        <field name="first_name">Carlos</field>
+        <field name="phone">+380671111007</field>
+        <field name="email">carlos.garcia@email.com</field>
+        <field name="relationship">Son</field>
+        <field name="gender">male</field>
+    </record>
+
+    <record id="contact_person_8" model="contact.person">
+        <field name="last_name">Martinez</field>
+        <field name="first_name">Elena</field>
+        <field name="phone">+380671111008</field>
+        <field name="email">elena.martinez@email.com</field>
+        <field name="relationship">Spouse</field>
+        <field name="gender">female</field>
+    </record>
+
+    <record id="contact_person_9" model="contact.person">
+        <field name="last_name">Robinson</field>
+        <field name="first_name">George</field>
+        <field name="phone">+380671111009</field>
+        <field name="email">george.robinson@email.com</field>
+        <field name="relationship">Guardian</field>
+        <field name="gender">male</field>
+    </record>
+
+    <record id="contact_person_10" model="contact.person">
+        <field name="last_name">Clark</field>
+        <field name="first_name">Patricia</field>
+        <field name="phone">+380671111010</field>
+        <field name="email">patricia.clark@email.com</field>
+        <field name="relationship">Grandmother</field>
+        <field name="gender">female</field>
+    </record>
+
+    <!-- 15 Patients -->
+    <record id="patient_01" model="hr.hospital.patient">
+        <field name="last_name">Moore</field>
+        <field name="first_name">Oliver</field>
+        <field name="middle_name">James</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1990-04-12</field>
+        <field name="phone">+380509990001</field>
+        <field name="email">oliver.moore@email.com</field>
+        <field name="blood_type">a_pos</field>
+        <field name="allergies">Penicillin, Peanuts</field>
+        <field name="passport_data">AB123456</field>
+        <field name="personal_doctor_id" ref="doctor_smith"/>
+        <field name="contact_person_id" ref="contact_person_1"/>
+    </record>
+
+    <record id="patient_02" model="hr.hospital.patient">
+        <field name="last_name">Lee</field>
+        <field name="first_name">Emma</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1985-08-25</field>
+        <field name="phone">+380509990002</field>
+        <field name="email">emma.lee@email.com</field>
+        <field name="blood_type">o_neg</field>
+        <field name="allergies">Sulfa drugs</field>
+        <field name="passport_data">CD234567</field>
+        <field name="personal_doctor_id" ref="doctor_johnson"/>
+        <field name="contact_person_id" ref="contact_person_2"/>
+    </record>
+
+    <record id="patient_03" model="hr.hospital.patient">
+        <field name="last_name">Walker</field>
+        <field name="first_name">Liam</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">2015-03-10</field>
+        <field name="phone">+380509990003</field>
+        <field name="email">walker.family@email.com</field>
+        <field name="blood_type">b_pos</field>
+        <field name="personal_doctor_id" ref="doctor_johnson"/>
+        <field name="contact_person_id" ref="contact_person_3"/>
+    </record>
+
+    <record id="patient_04" model="hr.hospital.patient">
+        <field name="last_name">Hall</field>
+        <field name="first_name">Sophia</field>
+        <field name="middle_name">Marie</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1978-11-30</field>
+        <field name="phone">+380509990004</field>
+        <field name="email">sophia.hall@email.com</field>
+        <field name="blood_type">ab_pos</field>
+        <field name="allergies">Latex, Iodine</field>
+        <field name="passport_data">EF345678</field>
+        <field name="personal_doctor_id" ref="doctor_williams"/>
+        <field name="contact_person_id" ref="contact_person_4"/>
+    </record>
+
+    <record id="patient_05" model="hr.hospital.patient">
+        <field name="last_name">Allen</field>
+        <field name="first_name">Noah</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1995-06-18</field>
+        <field name="phone">+380509990005</field>
+        <field name="email">noah.allen@email.com</field>
+        <field name="blood_type">o_pos</field>
+        <field name="passport_data">GH456789</field>
+        <field name="personal_doctor_id" ref="doctor_brown"/>
+        <field name="contact_person_id" ref="contact_person_5"/>
+    </record>
+
+    <record id="patient_06" model="hr.hospital.patient">
+        <field name="last_name">Young</field>
+        <field name="first_name">Ava</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">2000-01-05</field>
+        <field name="phone">+380509990006</field>
+        <field name="email">ava.young@email.com</field>
+        <field name="blood_type">a_neg</field>
+        <field name="allergies">Aspirin</field>
+        <field name="passport_data">IJ567890</field>
+        <field name="personal_doctor_id" ref="doctor_davis"/>
+    </record>
+
+    <record id="patient_07" model="hr.hospital.patient">
+        <field name="last_name">King</field>
+        <field name="first_name">Mason</field>
+        <field name="middle_name">Robert</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1960-09-22</field>
+        <field name="phone">+380509990007</field>
+        <field name="email">mason.king@email.com</field>
+        <field name="blood_type">b_neg</field>
+        <field name="passport_data">KL678901</field>
+        <field name="personal_doctor_id" ref="doctor_smith"/>
+        <field name="contact_person_id" ref="contact_person_6"/>
+    </record>
+
+    <record id="patient_08" model="hr.hospital.patient">
+        <field name="last_name">Wright</field>
+        <field name="first_name">Isabella</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1988-12-14</field>
+        <field name="phone">+380509990008</field>
+        <field name="email">isabella.wright@email.com</field>
+        <field name="blood_type">ab_neg</field>
+        <field name="allergies">Morphine, Codeine</field>
+        <field name="passport_data">MN789012</field>
+        <field name="personal_doctor_id" ref="doctor_wilson"/>
+        <field name="contact_person_id" ref="contact_person_7"/>
+    </record>
+
+    <record id="patient_09" model="hr.hospital.patient">
+        <field name="last_name">Lopez</field>
+        <field name="first_name">Ethan</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">2010-07-08</field>
+        <field name="phone">+380509990009</field>
+        <field name="email">lopez.family@email.com</field>
+        <field name="blood_type">o_pos</field>
+        <field name="personal_doctor_id" ref="doctor_johnson"/>
+        <field name="contact_person_id" ref="contact_person_8"/>
+    </record>
+
+    <record id="patient_10" model="hr.hospital.patient">
+        <field name="last_name">Hill</field>
+        <field name="first_name">Mia</field>
+        <field name="middle_name">Grace</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1972-02-28</field>
+        <field name="phone">+380509990010</field>
+        <field name="email">mia.hill@email.com</field>
+        <field name="blood_type">a_pos</field>
+        <field name="allergies">Bee stings, Shellfish</field>
+        <field name="passport_data">OP890123</field>
+        <field name="personal_doctor_id" ref="doctor_williams"/>
+        <field name="contact_person_id" ref="contact_person_9"/>
+    </record>
+
+    <record id="patient_11" model="hr.hospital.patient">
+        <field name="last_name">Scott</field>
+        <field name="first_name">Lucas</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1992-05-17</field>
+        <field name="phone">+380509990011</field>
+        <field name="email">lucas.scott@email.com</field>
+        <field name="blood_type">b_pos</field>
+        <field name="passport_data">QR901234</field>
+        <field name="personal_doctor_id" ref="doctor_brown"/>
+    </record>
+
+    <record id="patient_12" model="hr.hospital.patient">
+        <field name="last_name">Green</field>
+        <field name="first_name">Charlotte</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1998-10-03</field>
+        <field name="phone">+380509990012</field>
+        <field name="email">charlotte.green@email.com</field>
+        <field name="blood_type">o_neg</field>
+        <field name="allergies">Gluten</field>
+        <field name="passport_data">ST012345</field>
+        <field name="personal_doctor_id" ref="doctor_davis"/>
+        <field name="contact_person_id" ref="contact_person_10"/>
+    </record>
+
+    <record id="patient_13" model="hr.hospital.patient">
+        <field name="last_name">Adams</field>
+        <field name="first_name">Benjamin</field>
+        <field name="middle_name">Thomas</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1955-08-20</field>
+        <field name="phone">+380509990013</field>
+        <field name="email">benjamin.adams@email.com</field>
+        <field name="blood_type">ab_pos</field>
+        <field name="passport_data">UV123456</field>
+        <field name="personal_doctor_id" ref="doctor_smith"/>
+    </record>
+
+    <record id="patient_14" model="hr.hospital.patient">
+        <field name="last_name">Nelson</field>
+        <field name="first_name">Amelia</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">2018-04-25</field>
+        <field name="phone">+380509990014</field>
+        <field name="email">nelson.family@email.com</field>
+        <field name="blood_type">a_neg</field>
+        <field name="personal_doctor_id" ref="doctor_johnson"/>
+        <field name="contact_person_id" ref="contact_person_2"/>
+    </record>
+
+    <record id="patient_15" model="hr.hospital.patient">
+        <field name="last_name">Carter</field>
+        <field name="first_name">Henry</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1983-11-11</field>
+        <field name="phone">+380509990015</field>
+        <field name="email">henry.carter@email.com</field>
+        <field name="blood_type">b_neg</field>
+        <field name="allergies">NSAIDs, Dairy</field>
+        <field name="passport_data">WX234567</field>
+        <field name="personal_doctor_id" ref="doctor_wilson"/>
+        <field name="contact_person_id" ref="contact_person_1"/>
+    </record>
+
+    <!-- 12 Diseases with Hierarchy (2-3 levels) -->
+    <!-- Level 1: Parent diseases -->
+    <record id="disease_cardiovascular" model="hr.hospital.disease">
+        <field name="name">Cardiovascular Diseases</field>
+        <field name="icd10_code">I00-I99</field>
+        <field name="description">Diseases of the circulatory system</field>
+        <field name="danger_level">high</field>
+        <field name="is_contagious" eval="False"/>
+        <field name="symptoms">Chest pain, shortness of breath, fatigue</field>
+    </record>
+
+    <record id="disease_respiratory" model="hr.hospital.disease">
+        <field name="name">Respiratory Diseases</field>
+        <field name="icd10_code">J00-J99</field>
+        <field name="description">Diseases of the respiratory system</field>
+        <field name="danger_level">medium</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="symptoms">Cough, difficulty breathing, wheezing</field>
+    </record>
+
+    <record id="disease_infectious" model="hr.hospital.disease">
+        <field name="name">Infectious Diseases</field>
+        <field name="icd10_code">A00-B99</field>
+        <field name="description">Certain infectious and parasitic diseases</field>
+        <field name="danger_level">critical</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="symptoms">Fever, weakness, various organ involvement</field>
+    </record>
+
+    <record id="disease_neurological" model="hr.hospital.disease">
+        <field name="name">Neurological Disorders</field>
+        <field name="icd10_code">G00-G99</field>
+        <field name="description">Diseases of the nervous system</field>
+        <field name="danger_level">high</field>
+        <field name="is_contagious" eval="False"/>
+        <field name="symptoms">Headaches, numbness, coordination problems</field>
+    </record>
+
+    <!-- Level 2: Child diseases -->
+    <record id="disease_hypertension" model="hr.hospital.disease">
+        <field name="name">Hypertension</field>
+        <field name="icd10_code">I10</field>
+        <field name="parent_id" ref="disease_cardiovascular"/>
+        <field name="description">High blood pressure</field>
+        <field name="danger_level">high</field>
+        <field name="is_contagious" eval="False"/>
+        <field name="symptoms">Headaches, dizziness, nosebleeds</field>
+    </record>
+
+    <record id="disease_heart_failure" model="hr.hospital.disease">
+        <field name="name">Heart Failure</field>
+        <field name="icd10_code">I50</field>
+        <field name="parent_id" ref="disease_cardiovascular"/>
+        <field name="description">Heart unable to pump blood effectively</field>
+        <field name="danger_level">critical</field>
+        <field name="is_contagious" eval="False"/>
+        <field name="symptoms">Shortness of breath, fatigue, swelling</field>
+    </record>
+
+    <record id="disease_pneumonia" model="hr.hospital.disease">
+        <field name="name">Pneumonia</field>
+        <field name="icd10_code">J18</field>
+        <field name="parent_id" ref="disease_respiratory"/>
+        <field name="description">Lung infection causing inflammation</field>
+        <field name="danger_level">high</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="symptoms">Cough with phlegm, fever, chills</field>
+    </record>
+
+    <record id="disease_bronchitis" model="hr.hospital.disease">
+        <field name="name">Acute Bronchitis</field>
+        <field name="icd10_code">J20</field>
+        <field name="parent_id" ref="disease_respiratory"/>
+        <field name="description">Inflammation of the bronchial tubes</field>
+        <field name="danger_level">medium</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="symptoms">Cough, mucus production, chest discomfort</field>
+    </record>
+
+    <record id="disease_covid19" model="hr.hospital.disease">
+        <field name="name">COVID-19</field>
+        <field name="icd10_code">U07.1</field>
+        <field name="parent_id" ref="disease_infectious"/>
+        <field name="description">Coronavirus disease 2019</field>
+        <field name="danger_level">critical</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="symptoms">Fever, cough, loss of taste/smell</field>
+    </record>
+
+    <record id="disease_influenza" model="hr.hospital.disease">
+        <field name="name">Influenza</field>
+        <field name="icd10_code">J10</field>
+        <field name="parent_id" ref="disease_infectious"/>
+        <field name="description">Viral respiratory infection</field>
+        <field name="danger_level">medium</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="symptoms">Fever, body aches, fatigue</field>
+    </record>
+
+    <record id="disease_migraine" model="hr.hospital.disease">
+        <field name="name">Migraine</field>
+        <field name="icd10_code">G43</field>
+        <field name="parent_id" ref="disease_neurological"/>
+        <field name="description">Recurrent severe headaches</field>
+        <field name="danger_level">medium</field>
+        <field name="is_contagious" eval="False"/>
+        <field name="symptoms">Severe headache, nausea, light sensitivity</field>
+    </record>
+
+    <!-- Level 3: Grandchild diseases -->
+    <record id="disease_covid_severe" model="hr.hospital.disease">
+        <field name="name">Severe COVID-19</field>
+        <field name="icd10_code">U07.1S</field>
+        <field name="parent_id" ref="disease_covid19"/>
+        <field name="description">Severe coronavirus disease with complications</field>
+        <field name="danger_level">critical</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="symptoms">Respiratory failure, organ damage</field>
+    </record>
+
+    <!-- 25 Visits with different statuses -->
+    <record id="visit_01" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_01"/>
+        <field name="doctor_id" ref="doctor_smith"/>
+        <field name="scheduled_datetime">2024-12-20 09:00:00</field>
+        <field name="actual_datetime">2024-12-20 09:15:00</field>
+        <field name="visit_type">primary</field>
+        <field name="state">completed</field>
+        <field name="cost">500.00</field>
+    </record>
+
+    <record id="visit_02" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_02"/>
+        <field name="doctor_id" ref="doctor_johnson"/>
+        <field name="scheduled_datetime">2024-12-20 10:00:00</field>
+        <field name="actual_datetime">2024-12-20 10:05:00</field>
+        <field name="visit_type">follow_up</field>
+        <field name="state">completed</field>
+        <field name="cost">350.00</field>
+    </record>
+
+    <record id="visit_03" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_03"/>
+        <field name="doctor_id" ref="doctor_johnson"/>
+        <field name="scheduled_datetime">2024-12-20 11:00:00</field>
+        <field name="actual_datetime">2024-12-20 11:10:00</field>
+        <field name="visit_type">preventive</field>
+        <field name="state">completed</field>
+        <field name="cost">300.00</field>
+    </record>
+
+    <record id="visit_04" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_04"/>
+        <field name="doctor_id" ref="doctor_williams"/>
+        <field name="scheduled_datetime">2024-12-21 09:00:00</field>
+        <field name="actual_datetime">2024-12-21 09:00:00</field>
+        <field name="visit_type">primary</field>
+        <field name="state">completed</field>
+        <field name="cost">600.00</field>
+    </record>
+
+    <record id="visit_05" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_05"/>
+        <field name="doctor_id" ref="doctor_brown"/>
+        <field name="scheduled_datetime">2024-12-21 10:30:00</field>
+        <field name="actual_datetime">2024-12-21 10:35:00</field>
+        <field name="visit_type">primary</field>
+        <field name="state">completed</field>
+        <field name="cost">400.00</field>
+    </record>
+
+    <record id="visit_06" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_06"/>
+        <field name="doctor_id" ref="doctor_davis"/>
+        <field name="scheduled_datetime">2024-12-22 08:00:00</field>
+        <field name="actual_datetime">2024-12-22 08:00:00</field>
+        <field name="visit_type">emergency</field>
+        <field name="state">completed</field>
+        <field name="cost">1200.00</field>
+    </record>
+
+    <record id="visit_07" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_07"/>
+        <field name="doctor_id" ref="doctor_smith"/>
+        <field name="scheduled_datetime">2024-12-22 14:00:00</field>
+        <field name="actual_datetime">2024-12-22 14:20:00</field>
+        <field name="visit_type">follow_up</field>
+        <field name="state">completed</field>
+        <field name="cost">450.00</field>
+    </record>
+
+    <record id="visit_08" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_08"/>
+        <field name="doctor_id" ref="doctor_wilson"/>
+        <field name="scheduled_datetime">2024-12-23 09:00:00</field>
+        <field name="actual_datetime">2024-12-23 09:10:00</field>
+        <field name="visit_type">primary</field>
+        <field name="state">completed</field>
+        <field name="cost">500.00</field>
+    </record>
+
+    <record id="visit_09" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_09"/>
+        <field name="doctor_id" ref="doctor_intern_taylor"/>
+        <field name="scheduled_datetime">2024-12-23 11:00:00</field>
+        <field name="actual_datetime">2024-12-23 11:15:00</field>
+        <field name="visit_type">preventive</field>
+        <field name="state">completed</field>
+        <field name="cost">250.00</field>
+    </record>
+
+    <record id="visit_10" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_10"/>
+        <field name="doctor_id" ref="doctor_williams"/>
+        <field name="scheduled_datetime">2024-12-23 15:00:00</field>
+        <field name="actual_datetime">2024-12-23 15:05:00</field>
+        <field name="visit_type">follow_up</field>
+        <field name="state">completed</field>
+        <field name="cost">550.00</field>
+    </record>
+
+    <record id="visit_11" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_11"/>
+        <field name="doctor_id" ref="doctor_brown"/>
+        <field name="scheduled_datetime">2024-12-24 09:00:00</field>
+        <field name="visit_type">primary</field>
+        <field name="state">cancelled</field>
+        <field name="cost">400.00</field>
+    </record>
+
+    <record id="visit_12" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_12"/>
+        <field name="doctor_id" ref="doctor_davis"/>
+        <field name="scheduled_datetime">2024-12-24 10:00:00</field>
+        <field name="visit_type">follow_up</field>
+        <field name="state">no_show</field>
+        <field name="cost">350.00</field>
+    </record>
+
+    <record id="visit_13" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_13"/>
+        <field name="doctor_id" ref="doctor_intern_miller"/>
+        <field name="scheduled_datetime">2024-12-24 14:00:00</field>
+        <field name="actual_datetime">2024-12-24 14:10:00</field>
+        <field name="visit_type">primary</field>
+        <field name="state">completed</field>
+        <field name="cost">300.00</field>
+    </record>
+
+    <record id="visit_14" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_14"/>
+        <field name="doctor_id" ref="doctor_johnson"/>
+        <field name="scheduled_datetime">2024-12-25 09:00:00</field>
+        <field name="actual_datetime">2024-12-25 09:00:00</field>
+        <field name="visit_type">preventive</field>
+        <field name="state">completed</field>
+        <field name="cost">280.00</field>
+    </record>
+
+    <record id="visit_15" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_15"/>
+        <field name="doctor_id" ref="doctor_wilson"/>
+        <field name="scheduled_datetime">2024-12-25 11:00:00</field>
+        <field name="actual_datetime">2024-12-25 11:20:00</field>
+        <field name="visit_type">follow_up</field>
+        <field name="state">completed</field>
+        <field name="cost">480.00</field>
+    </record>
+
+    <!-- Scheduled visits -->
+    <record id="visit_16" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_01"/>
+        <field name="doctor_id" ref="doctor_smith"/>
+        <field name="scheduled_datetime">2025-01-02 09:00:00</field>
+        <field name="visit_type">follow_up</field>
+        <field name="state">scheduled</field>
+        <field name="cost">450.00</field>
+    </record>
+
+    <record id="visit_17" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_04"/>
+        <field name="doctor_id" ref="doctor_williams"/>
+        <field name="scheduled_datetime">2025-01-02 10:00:00</field>
+        <field name="visit_type">follow_up</field>
+        <field name="state">scheduled</field>
+        <field name="cost">550.00</field>
+    </record>
+
+    <record id="visit_18" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_07"/>
+        <field name="doctor_id" ref="doctor_intern_miller"/>
+        <field name="scheduled_datetime">2025-01-02 14:00:00</field>
+        <field name="visit_type">follow_up</field>
+        <field name="state">scheduled</field>
+        <field name="cost">300.00</field>
+    </record>
+
+    <record id="visit_19" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_10"/>
+        <field name="doctor_id" ref="doctor_williams"/>
+        <field name="scheduled_datetime">2025-01-03 09:00:00</field>
+        <field name="visit_type">primary</field>
+        <field name="state">scheduled</field>
+        <field name="cost">600.00</field>
+    </record>
+
+    <record id="visit_20" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_02"/>
+        <field name="doctor_id" ref="doctor_johnson"/>
+        <field name="scheduled_datetime">2025-01-03 11:00:00</field>
+        <field name="visit_type">preventive</field>
+        <field name="state">scheduled</field>
+        <field name="cost">300.00</field>
+    </record>
+
+    <record id="visit_21" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_05"/>
+        <field name="doctor_id" ref="doctor_brown"/>
+        <field name="scheduled_datetime">2025-01-03 15:00:00</field>
+        <field name="visit_type">follow_up</field>
+        <field name="state">scheduled</field>
+        <field name="cost">380.00</field>
+    </record>
+
+    <record id="visit_22" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_08"/>
+        <field name="doctor_id" ref="doctor_wilson"/>
+        <field name="scheduled_datetime">2025-01-04 09:00:00</field>
+        <field name="visit_type">follow_up</field>
+        <field name="state">scheduled</field>
+        <field name="cost">480.00</field>
+    </record>
+
+    <record id="visit_23" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_03"/>
+        <field name="doctor_id" ref="doctor_intern_taylor"/>
+        <field name="scheduled_datetime">2025-01-04 10:00:00</field>
+        <field name="visit_type">preventive</field>
+        <field name="state">scheduled</field>
+        <field name="cost">250.00</field>
+    </record>
+
+    <record id="visit_24" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_13"/>
+        <field name="doctor_id" ref="doctor_smith"/>
+        <field name="scheduled_datetime">2025-01-04 14:00:00</field>
+        <field name="visit_type">follow_up</field>
+        <field name="state">scheduled</field>
+        <field name="cost">450.00</field>
+    </record>
+
+    <record id="visit_25" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_06"/>
+        <field name="doctor_id" ref="doctor_davis"/>
+        <field name="scheduled_datetime">2025-01-05 09:00:00</field>
+        <field name="visit_type">follow_up</field>
+        <field name="state">scheduled</field>
+        <field name="cost">400.00</field>
+    </record>
+
+    <!-- 20 Diagnoses (including unapproved from interns) -->
+    <record id="diagnosis_01" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_01"/>
+        <field name="disease_id" ref="disease_hypertension"/>
+        <field name="description">Stage 2 hypertension, requiring medication adjustment</field>
+        <field name="treatment">&lt;p&gt;Prescribed Lisinopril 10mg daily. Follow-up in 2 weeks.&lt;/p&gt;</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_smith"/>
+        <field name="approval_date">2024-12-20 10:00:00</field>
+    </record>
+
+    <record id="diagnosis_02" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_02"/>
+        <field name="disease_id" ref="disease_influenza"/>
+        <field name="description">Seasonal influenza with mild symptoms</field>
+        <field name="treatment">&lt;p&gt;Rest, fluids, and over-the-counter medication for symptoms.&lt;/p&gt;</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_johnson"/>
+        <field name="approval_date">2024-12-20 11:00:00</field>
+    </record>
+
+    <record id="diagnosis_03" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_04"/>
+        <field name="disease_id" ref="disease_migraine"/>
+        <field name="description">Chronic migraine with aura</field>
+        <field name="treatment">&lt;p&gt;Sumatriptan 50mg as needed. Avoid triggers.&lt;/p&gt;</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_williams"/>
+        <field name="approval_date">2024-12-21 10:30:00</field>
+    </record>
+
+    <record id="diagnosis_04" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_05"/>
+        <field name="disease_id" ref="disease_bronchitis"/>
+        <field name="description">Acute bronchitis, viral origin</field>
+        <field name="treatment">&lt;p&gt;Expectorants and rest. No antibiotics needed.&lt;/p&gt;</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_brown"/>
+        <field name="approval_date">2024-12-21 11:30:00</field>
+    </record>
+
+    <record id="diagnosis_05" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_06"/>
+        <field name="disease_id" ref="disease_heart_failure"/>
+        <field name="description">Acute decompensated heart failure</field>
+        <field name="treatment">&lt;p&gt;IV diuretics, oxygen therapy. ICU monitoring required.&lt;/p&gt;</field>
+        <field name="severity">critical</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_davis"/>
+        <field name="approval_date">2024-12-22 09:00:00</field>
+    </record>
+
+    <record id="diagnosis_06" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_07"/>
+        <field name="disease_id" ref="disease_hypertension"/>
+        <field name="description">Controlled hypertension, medication working well</field>
+        <field name="treatment">&lt;p&gt;Continue current medication. Next checkup in 3 months.&lt;/p&gt;</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_smith"/>
+        <field name="approval_date">2024-12-22 15:00:00</field>
+    </record>
+
+    <record id="diagnosis_07" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_08"/>
+        <field name="disease_id" ref="disease_hypertension"/>
+        <field name="description">Newly diagnosed hypertension</field>
+        <field name="treatment">&lt;p&gt;Lifestyle modifications, low sodium diet. Start Amlodipine 5mg.&lt;/p&gt;</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_wilson"/>
+        <field name="approval_date">2024-12-23 10:00:00</field>
+    </record>
+
+    <record id="diagnosis_08" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_09"/>
+        <field name="disease_id" ref="disease_influenza"/>
+        <field name="description">Mild flu symptoms in pediatric patient</field>
+        <field name="treatment">&lt;p&gt;Pediatric ibuprofen for fever. Plenty of fluids.&lt;/p&gt;</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="False"/>
+    </record>
+
+    <record id="diagnosis_09" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_10"/>
+        <field name="disease_id" ref="disease_migraine"/>
+        <field name="description">Follow-up for migraine treatment</field>
+        <field name="treatment">&lt;p&gt;Current treatment effective. Continue prophylaxis.&lt;/p&gt;</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_williams"/>
+        <field name="approval_date">2024-12-23 16:00:00</field>
+    </record>
+
+    <record id="diagnosis_10" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_13"/>
+        <field name="disease_id" ref="disease_hypertension"/>
+        <field name="description">Suspected hypertension, needs monitoring</field>
+        <field name="treatment">&lt;p&gt;24-hour blood pressure monitoring recommended.&lt;/p&gt;</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="False"/>
+    </record>
+
+    <record id="diagnosis_11" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_14"/>
+        <field name="disease_id" ref="disease_bronchitis"/>
+        <field name="description">Preventive checkup, mild respiratory symptoms</field>
+        <field name="treatment">&lt;p&gt;Preventive vitamins and healthy diet.&lt;/p&gt;</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_johnson"/>
+        <field name="approval_date">2024-12-25 10:00:00</field>
+    </record>
+
+    <record id="diagnosis_12" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_15"/>
+        <field name="disease_id" ref="disease_hypertension"/>
+        <field name="description">Hypertension under control</field>
+        <field name="treatment">&lt;p&gt;Maintain current regimen.&lt;/p&gt;</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_wilson"/>
+        <field name="approval_date">2024-12-25 12:00:00</field>
+    </record>
+
+    <record id="diagnosis_13" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_01"/>
+        <field name="disease_id" ref="disease_covid19"/>
+        <field name="description">Post-COVID cardiac monitoring</field>
+        <field name="treatment">&lt;p&gt;Cardiac rehabilitation program.&lt;/p&gt;</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_smith"/>
+        <field name="approval_date">2024-12-20 10:30:00</field>
+    </record>
+
+    <record id="diagnosis_14" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_04"/>
+        <field name="disease_id" ref="disease_neurological"/>
+        <field name="description">General neurological assessment</field>
+        <field name="treatment">&lt;p&gt;MRI recommended for further evaluation.&lt;/p&gt;</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_williams"/>
+        <field name="approval_date">2024-12-21 11:00:00</field>
+    </record>
+
+    <record id="diagnosis_15" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_06"/>
+        <field name="disease_id" ref="disease_pneumonia"/>
+        <field name="description">Hospital-acquired pneumonia complication</field>
+        <field name="treatment">&lt;p&gt;IV antibiotics, respiratory therapy.&lt;/p&gt;</field>
+        <field name="severity">severe</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_davis"/>
+        <field name="approval_date">2024-12-22 09:30:00</field>
+    </record>
+
+    <record id="diagnosis_16" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_09"/>
+        <field name="disease_id" ref="disease_bronchitis"/>
+        <field name="description">Mild bronchitis in child</field>
+        <field name="treatment">&lt;p&gt;Steam inhalation, cough syrup.&lt;/p&gt;</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="False"/>
+    </record>
+
+    <record id="diagnosis_17" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_13"/>
+        <field name="disease_id" ref="disease_heart_failure"/>
+        <field name="description">Early signs of heart failure</field>
+        <field name="treatment">&lt;p&gt;Echocardiogram scheduled. Start beta-blockers.&lt;/p&gt;</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="False"/>
+    </record>
+
+    <record id="diagnosis_18" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_03"/>
+        <field name="disease_id" ref="disease_influenza"/>
+        <field name="description">Flu vaccination preventive visit</field>
+        <field name="treatment">&lt;p&gt;Annual flu vaccine administered.&lt;/p&gt;</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_johnson"/>
+        <field name="approval_date">2024-12-20 12:00:00</field>
+    </record>
+
+    <record id="diagnosis_19" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_07"/>
+        <field name="disease_id" ref="disease_cardiovascular"/>
+        <field name="description">General cardiovascular assessment</field>
+        <field name="treatment">&lt;p&gt;Lipid panel ordered. Diet counseling.&lt;/p&gt;</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_smith"/>
+        <field name="approval_date">2024-12-22 15:30:00</field>
+    </record>
+
+    <record id="diagnosis_20" model="medical.diagnosis">
+        <field name="visit_id" ref="visit_08"/>
+        <field name="disease_id" ref="disease_covid_severe"/>
+        <field name="description">Post severe COVID recovery monitoring</field>
+        <field name="treatment">&lt;p&gt;Pulmonary function tests. Cardiac monitoring.&lt;/p&gt;</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_wilson"/>
+        <field name="approval_date">2024-12-23 10:30:00</field>
+    </record>
+
+    <!-- Doctor Schedule for current week (Mon-Fri) -->
+    <!-- Dr. Smith - Cardiology -->
+    <record id="schedule_smith_mon" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_smith"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">16.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_smith_tue" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_smith"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">16.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_smith_wed" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_smith"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">16.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_smith_thu" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_smith"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">16.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_smith_fri" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_smith"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">14.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+
+    <!-- Dr. Johnson - Pediatrics -->
+    <record id="schedule_johnson_mon" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_johnson"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_johnson_tue" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_johnson"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_johnson_wed" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_johnson"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_johnson_thu" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_johnson"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_johnson_fri" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_johnson"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">15.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+
+    <!-- Dr. Williams - Neurology -->
+    <record id="schedule_williams_mon" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_williams"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from">10.0</field>
+        <field name="time_to">18.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_williams_tue" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_williams"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from">10.0</field>
+        <field name="time_to">18.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_williams_wed" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_williams"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from">10.0</field>
+        <field name="time_to">18.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_williams_thu" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_williams"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from">10.0</field>
+        <field name="time_to">18.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_williams_fri" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_williams"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from">10.0</field>
+        <field name="time_to">16.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+
+    <!-- Dr. Brown - General Practice -->
+    <record id="schedule_brown_mon" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_brown"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_brown_tue" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_brown"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_brown_wed" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_brown"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_brown_thu" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_brown"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_brown_fri" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_brown"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">14.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+
+    <!-- Dr. Davis - Surgery -->
+    <record id="schedule_davis_mon" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_davis"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from">7.0</field>
+        <field name="time_to">15.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_davis_tue" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_davis"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from">7.0</field>
+        <field name="time_to">15.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_davis_wed" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_davis"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from">7.0</field>
+        <field name="time_to">15.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_davis_thu" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_davis"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from">7.0</field>
+        <field name="time_to">15.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_davis_fri" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_davis"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from">7.0</field>
+        <field name="time_to">12.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+
+    <!-- Dr. Wilson - Cardiology -->
+    <record id="schedule_wilson_mon" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_wilson"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_wilson_tue" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_wilson"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_wilson_wed" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_wilson"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_wilson_thu" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_wilson"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_wilson_fri" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_wilson"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">14.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+
+    <!-- Intern Miller schedule -->
+    <record id="schedule_miller_mon" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_intern_miller"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">16.0</field>
+        <field name="schedule_type">working</field>
+        <field name="notes">Supervised by Dr. Smith</field>
+    </record>
+    <record id="schedule_miller_tue" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_intern_miller"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">16.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_miller_wed" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_intern_miller"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">16.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_miller_thu" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_intern_miller"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">16.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_miller_fri" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_intern_miller"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from">8.0</field>
+        <field name="time_to">14.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+
+    <!-- Intern Taylor schedule -->
+    <record id="schedule_taylor_mon" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_intern_taylor"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+        <field name="notes">Supervised by Dr. Johnson</field>
+    </record>
+    <record id="schedule_taylor_tue" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_intern_taylor"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_taylor_wed" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_intern_taylor"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_taylor_thu" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_intern_taylor"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">17.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+    <record id="schedule_taylor_fri" model="doctor.schedule">
+        <field name="doctor_id" ref="doctor_intern_taylor"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from">9.0</field>
+        <field name="time_to">15.0</field>
+        <field name="schedule_type">working</field>
+    </record>
+
+    <!-- Patient Doctor History -->
+    <record id="history_patient01_1" model="patient.doctor.history">
+        <field name="patient_id" ref="patient_01"/>
+        <field name="doctor_id" ref="doctor_brown"/>
+        <field name="date_assigned">2020-01-15</field>
+        <field name="date_changed">2022-06-01</field>
+        <field name="change_reason">Patient requested specialist care</field>
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="history_patient01_2" model="patient.doctor.history">
+        <field name="patient_id" ref="patient_01"/>
+        <field name="doctor_id" ref="doctor_smith"/>
+        <field name="date_assigned">2022-06-01</field>
+        <field name="change_reason">Referred to cardiology specialist</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="history_patient04_1" model="patient.doctor.history">
+        <field name="patient_id" ref="patient_04"/>
+        <field name="doctor_id" ref="doctor_brown"/>
+        <field name="date_assigned">2019-03-10</field>
+        <field name="date_changed">2023-01-15</field>
+        <field name="change_reason">Neurological symptoms developed</field>
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="history_patient04_2" model="patient.doctor.history">
+        <field name="patient_id" ref="patient_04"/>
+        <field name="doctor_id" ref="doctor_williams"/>
+        <field name="date_assigned">2023-01-15</field>
+        <field name="change_reason">Transferred to neurologist</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="history_patient07_1" model="patient.doctor.history">
+        <field name="patient_id" ref="patient_07"/>
+        <field name="doctor_id" ref="doctor_wilson"/>
+        <field name="date_assigned">2018-07-20</field>
+        <field name="date_changed">2023-09-01</field>
+        <field name="change_reason">Dr. Wilson on maternity leave</field>
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="history_patient07_2" model="patient.doctor.history">
+        <field name="patient_id" ref="patient_07"/>
+        <field name="doctor_id" ref="doctor_smith"/>
+        <field name="date_assigned">2023-09-01</field>
+        <field name="change_reason">Temporary transfer during Dr. Wilson leave</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="history_patient10_1" model="patient.doctor.history">
+        <field name="patient_id" ref="patient_10"/>
+        <field name="doctor_id" ref="doctor_brown"/>
+        <field name="date_assigned">2017-05-05</field>
+        <field name="date_changed">2021-11-20</field>
+        <field name="change_reason">Chronic headaches requiring specialist</field>
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="history_patient10_2" model="patient.doctor.history">
+        <field name="patient_id" ref="patient_10"/>
+        <field name="doctor_id" ref="doctor_williams"/>
+        <field name="date_assigned">2021-11-20</field>
+        <field name="change_reason">Referred to neurology for migraine treatment</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="history_patient15_1" model="patient.doctor.history">
+        <field name="patient_id" ref="patient_15"/>
+        <field name="doctor_id" ref="doctor_smith"/>
+        <field name="date_assigned">2019-08-12</field>
+        <field name="date_changed">2024-03-01</field>
+        <field name="change_reason">Moved to different city area</field>
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="history_patient15_2" model="patient.doctor.history">
+        <field name="patient_id" ref="patient_15"/>
+        <field name="doctor_id" ref="doctor_wilson"/>
+        <field name="date_assigned">2024-03-01</field>
+        <field name="change_reason">Transferred to closer clinic location</field>
+        <field name="active" eval="True"/>
+    </record>
 </odoo>

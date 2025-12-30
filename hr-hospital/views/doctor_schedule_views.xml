@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_doctor_schedule_tree" model="ir.ui.view">
+        <field name="name">doctor.schedule.tree</field>
+        <field name="model">doctor.schedule</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="doctor_id"/>
+                <field name="day_of_week"/>
+                <field name="date"/>
+                <field name="time_from" widget="float_time"/>
+                <field name="time_to" widget="float_time"/>
+                <field name="schedule_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_doctor_schedule_form" model="ir.ui.view">
+        <field name="name">doctor.schedule.form</field>
+        <field name="model">doctor.schedule</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="doctor_id"/>
+                            <field name="day_of_week"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="time_from" widget="float_time"/>
+                            <field name="time_to" widget="float_time"/>
+                            <field name="schedule_type"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_doctor_schedule_search" model="ir.ui.view">
+        <field name="name">doctor.schedule.search</field>
+        <field name="model">doctor.schedule</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="doctor_id"/>
+                <filter string="Working Days"
+                        name="working"
+                        domain="[('schedule_type', '=', 'working')]"/>
+                <filter string="Vacation"
+                        name="vacation"
+                        domain="[('schedule_type', '=', 'vacation')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Doctor"
+                            name="group_doctor"
+                            context="{'group_by': 'doctor_id'}"/>
+                    <filter string="Day"
+                            name="group_day"
+                            context="{'group_by': 'day_of_week'}"/>
+                    <filter string="Type"
+                            name="group_type"
+                            context="{'group_by': 'schedule_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_doctor_schedule_window" model="ir.actions.act_window">
+        <field name="name">Doctor Schedule</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">doctor.schedule</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="menu_hr_hospital_root"
               name="Hospital"
@@ -9,11 +10,29 @@
               action="action_hr_hospital_patient_window"
               sequence="10"/>
 
+    <menuitem id="menu_hr_hospital_contact_person"
+              name="Contact Persons"
+              parent="menu_hr_hospital_root"
+              action="action_contact_person_window"
+              sequence="15"/>
+
     <menuitem id="menu_hr_hospital_doctor"
               name="Doctors"
               parent="menu_hr_hospital_root"
               action="action_hr_hospital_doctor_window"
               sequence="20"/>
+
+    <menuitem id="menu_hr_hospital_speciality"
+              name="Specialities"
+              parent="menu_hr_hospital_root"
+              action="action_doctor_speciality_window"
+              sequence="25"/>
+
+    <menuitem id="menu_hr_hospital_schedule"
+              name="Doctor Schedule"
+              parent="menu_hr_hospital_root"
+              action="action_doctor_schedule_window"
+              sequence="26"/>
 
     <menuitem id="menu_hr_hospital_disease"
               name="Diseases"
@@ -26,4 +45,27 @@
               parent="menu_hr_hospital_root"
               action="action_hr_hospital_visit_window"
               sequence="40"/>
+
+    <menuitem id="menu_hr_hospital_diagnosis"
+              name="Diagnoses"
+              parent="menu_hr_hospital_root"
+              action="action_medical_diagnosis_window"
+              sequence="45"/>
+
+    <menuitem id="menu_hr_hospital_reports"
+              name="Reports"
+              parent="menu_hr_hospital_root"
+              sequence="50"/>
+
+    <menuitem id="menu_hr_hospital_disease_report"
+              name="Disease Report"
+              parent="menu_hr_hospital_reports"
+              action="action_disease_report_wizard"
+              sequence="10"/>
+
+    <menuitem id="menu_hr_hospital_schedule_wizard"
+              name="Generate Schedule"
+              parent="menu_hr_hospital_reports"
+              action="action_doctor_schedule_wizard"
+              sequence="20"/>
 </odoo>
