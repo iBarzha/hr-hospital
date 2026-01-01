@@ -62,6 +62,11 @@ class HrHospitalDoctor(models.Model):
         inverse_name='doctor_id',
         string='Visits',
     )
+    intern_ids = fields.One2many(
+        comodel_name='hr.hospital.doctor',
+        inverse_name='mentor_id',
+        string='Interns',
+    )
     active = fields.Boolean(default=True)
 
     _sql_constraints = [
@@ -129,3 +134,16 @@ class HrHospitalDoctor(models.Model):
                         self.env._('Cannot archive doctor with active visits!')
                     )
         return super().write(vals)
+
+    def action_quick_visit(self):
+        self.ensure_one()
+        return {
+            'name': self.env._('Create Visit'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'hr.hospital.visit',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_doctor_id': self.ids[0],
+            },
+        }

@@ -49,7 +49,18 @@ class HrHospitalPatient(models.Model):
         inverse_name='patient_id',
         string='Visits',
     )
+    diagnosis_ids = fields.One2many(
+        comodel_name='medical.diagnosis',
+        compute='_compute_diagnosis_ids',
+        string='Diagnoses',
+    )
     active = fields.Boolean(default=True)
+
+    def _compute_diagnosis_ids(self):
+        for record in self:
+            record.diagnosis_ids = self.env['medical.diagnosis'].search([
+                ('visit_id.patient_id', '=', record.id)
+            ])
 
     @api.depends('full_name')
     def _compute_name(self):
@@ -90,3 +101,31 @@ class HrHospitalPatient(models.Model):
                                'that have diagnoses.')
                 )
         return super().unlink()
+
+    def action_view_visits(self):
+        self.ensure_one()
+        patient_id = self.ids[0]
+        return {
+            'name': self.env._('Visits of %s', self.name),
+            'type': 'ir.actions.act_window',
+            'res_model': 'hr.hospital.visit',
+            'view_mode': 'tree,form,calendar',
+            'domain': [('patient_id', '=', patient_id)],
+            'context': {'default_patient_id': patient_id},
+        }
+
+    def action_quick_visit(self):
+        self.ensure_one()
+        patient_id = self.ids[0]
+        doctor_id = self.personal_doctor_id.ids[0] if self.personal_doctor_id else False
+        return {
+            'name': self.env._('Create Visit'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'hr.hospital.visit',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_patient_id': patient_id,
+                'default_doctor_id': doctor_id,
+            },
+        }

@@ -21,6 +21,18 @@
         <field name="model">hr.hospital.patient</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="action_view_visits"
+                            string="Visit History"
+                            type="object"
+                            class="oe_highlight"
+                            icon="fa-calendar"/>
+                    <button name="action_quick_visit"
+                            string="Quick Visit"
+                            type="object"
+                            class="oe_highlight"
+                            icon="fa-plus"/>
+                </header>
                 <sheet>
                     <field name="image_1920" widget="image" class="oe_avatar"
                            options="{'preview_image': 'image_128'}"/>
@@ -78,6 +90,17 @@
                                     <field name="date_changed"/>
                                     <field name="change_reason"/>
                                     <field name="active"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Diagnosis History" name="diagnosis_history">
+                            <field name="diagnosis_ids" readonly="1">
+                                <tree>
+                                    <field name="visit_id"/>
+                                    <field name="disease_id"/>
+                                    <field name="severity"/>
+                                    <field name="is_approved"/>
+                                    <field name="approved_by_id"/>
                                 </tree>
                             </field>
                         </page>

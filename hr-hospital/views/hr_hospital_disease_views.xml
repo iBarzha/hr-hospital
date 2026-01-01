@@ -76,6 +76,17 @@
                             name="group_parent"
                             context="{'group_by': 'parent_id'}"/>
                 </group>
+                <searchpanel>
+                    <field name="parent_id"
+                           icon="fa-medkit"
+                           select="multi"
+                           hierarchize="1"
+                           enable_counters="1"/>
+                    <field name="danger_level"
+                           icon="fa-exclamation-triangle"
+                           select="multi"
+                           enable_counters="1"/>
+                </searchpanel>
             </search>
         </field>
     </record>

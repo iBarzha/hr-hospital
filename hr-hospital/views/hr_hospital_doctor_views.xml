@@ -62,7 +62,43 @@
                             <field name="active"/>
                         </group>
                     </group>
+                    <!-- Mentor Info (for interns) -->
+                    <group string="Mentor Information"
+                           invisible="not is_intern or not mentor_id">
+                        <group>
+                            <field name="mentor_id" readonly="1"/>
+                        </group>
+                    </group>
                     <notebook>
+                        <!-- Interns (for mentors) -->
+                        <page string="My Interns" name="interns"
+                              invisible="is_intern">
+                            <field name="intern_ids" readonly="1">
+                                <kanban>
+                                    <field name="full_name"/>
+                                    <field name="speciality_id"/>
+                                    <field name="image_128"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_global_click">
+                                                <div class="o_kanban_image">
+                                                    <img t-att-src="kanban_image('hr.hospital.doctor', 'image_128', record.id.raw_value)"
+                                                         alt="Doctor"/>
+                                                </div>
+                                                <div class="oe_kanban_details">
+                                                    <strong>
+                                                        <field name="full_name"/>
+                                                    </strong>
+                                                    <div>
+                                                        <field name="speciality_id"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
                         <page string="Patients" name="patients">
                             <field name="patient_ids">
                                 <tree>
@@ -108,9 +144,14 @@
                 <field name="full_name"/>
                 <field name="speciality_id"/>
                 <field name="license_number"/>
+                <separator/>
+                <filter string="Mentors"
+                        name="mentors"
+                        domain="[('is_intern', '=', False), ('intern_ids', '!=', False)]"/>
                 <filter string="Interns"
                         name="interns"
                         domain="[('is_intern', '=', True)]"/>
+                <separator/>
                 <filter string="Has License"
                         name="has_license"
                         domain="[('license_number', '!=', False)]"/>
@@ -121,8 +162,82 @@
                     <filter string="Education Country"
                             name="group_education"
                             context="{'group_by': 'education_country_id'}"/>
+                    <filter string="Mentor"
+                            name="group_mentor"
+                            context="{'group_by': 'mentor_id'}"/>
                 </group>
             </search>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_hr_hospital_doctor_kanban" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.kanban</field>
+        <field name="model">hr.hospital.doctor</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="speciality_id"
+                    class="o_kanban_mobile"
+                    quick_create_view="hr-hospital.view_hr_hospital_visit_form_quick">
+                <field name="id"/>
+                <field name="full_name"/>
+                <field name="speciality_id"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="is_intern"/>
+                <field name="rating"/>
+                <field name="image_128"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('hr.hospital.doctor', 'image_128', record.id.raw_value)"
+                                     alt="Doctor"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="full_name"/>
+                                    <span t-if="record.is_intern.raw_value"
+                                          class="badge bg-info ms-1">Intern</span>
+                                </strong>
+                                <div class="o_kanban_record_subtitle">
+                                    <field name="speciality_id"/>
+                                </div>
+                                <div>
+                                    <i class="fa fa-phone"/> <field name="phone"/>
+                                </div>
+                                <div>
+                                    <i class="fa fa-star text-warning"/>
+                                    <field name="rating"/>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_bottom_right">
+                                <button name="action_quick_visit"
+                                        type="object"
+                                        class="btn btn-primary btn-sm"
+                                        title="Quick Visit">
+                                    <i class="fa fa-plus"/> Visit
+                                </button>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Quick Visit Form -->
+    <record id="view_hr_hospital_visit_form_quick" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.form.quick</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="patient_id"/>
+                    <field name="doctor_id"/>
+                    <field name="scheduled_datetime"/>
+                    <field name="visit_type"/>
+                </group>
+            </form>
         </field>
     </record>
 
@@ -130,6 +245,6 @@
         <field name="name">Doctors</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.hospital.doctor</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,kanban,form</field>
     </record>
 </odoo>

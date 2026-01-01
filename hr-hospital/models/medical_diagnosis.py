@@ -38,6 +38,21 @@ class MedicalDiagnosis(models.Model):
             ('critical', 'Critical'),
         ],
     )
+    diagnosis_date = fields.Datetime(
+        related='visit_id.scheduled_datetime',
+        store=True,
+        string='Diagnosis Date',
+    )
+    doctor_id = fields.Many2one(
+        related='visit_id.doctor_id',
+        store=True,
+        string='Doctor',
+    )
+    disease_type = fields.Many2one(
+        related='disease_id.parent_id',
+        store=True,
+        string='Disease Type',
+    )
 
     def action_approve(self):
         for record in self:

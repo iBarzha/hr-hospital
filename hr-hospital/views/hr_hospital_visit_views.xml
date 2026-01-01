@@ -125,10 +125,54 @@
         </field>
     </record>
 
+    <!-- Calendar View -->
+    <record id="view_hr_hospital_visit_calendar" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.calendar</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <calendar string="Visits"
+                      date_start="scheduled_datetime"
+                      color="doctor_id"
+                      mode="month"
+                      quick_create="0">
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="visit_type"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Pivot View -->
+    <record id="view_hr_hospital_visit_pivot" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.pivot</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <pivot string="Visits Analysis">
+                <field name="doctor_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="id" type="measure" string="Count"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record id="view_hr_hospital_visit_graph" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.graph</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <graph string="Visits Statistics" type="bar">
+                <field name="doctor_id"/>
+                <field name="state" type="col"/>
+            </graph>
+        </field>
+    </record>
+
     <record id="action_hr_hospital_visit_window" model="ir.actions.act_window">
         <field name="name">Visits</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.hospital.visit</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,calendar,pivot,graph</field>
+        <field name="context">{'search_default_group_state': 1}</field>
     </record>
 </odoo>

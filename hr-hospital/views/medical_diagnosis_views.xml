@@ -78,10 +78,37 @@
         </field>
     </record>
 
+    <!-- Pivot View -->
+    <record id="view_medical_diagnosis_pivot" model="ir.ui.view">
+        <field name="name">medical.diagnosis.pivot</field>
+        <field name="model">medical.diagnosis</field>
+        <field name="arch" type="xml">
+            <pivot string="Diagnosis Analysis">
+                <field name="disease_id" type="row"/>
+                <field name="disease_type" type="row"/>
+                <field name="diagnosis_date" interval="year" type="col"/>
+                <field name="diagnosis_date" interval="month" type="col"/>
+                <field name="id" type="measure" string="Count"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record id="view_medical_diagnosis_graph" model="ir.ui.view">
+        <field name="name">medical.diagnosis.graph</field>
+        <field name="model">medical.diagnosis</field>
+        <field name="arch" type="xml">
+            <graph string="Disease Statistics" type="bar">
+                <field name="disease_type"/>
+                <field name="diagnosis_date" interval="month" type="col"/>
+            </graph>
+        </field>
+    </record>
+
     <record id="action_medical_diagnosis_window" model="ir.actions.act_window">
         <field name="name">Diagnoses</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">medical.diagnosis</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,pivot,graph</field>
     </record>
 </odoo>
