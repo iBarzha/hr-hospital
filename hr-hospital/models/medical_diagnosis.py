@@ -56,12 +56,14 @@ class MedicalDiagnosis(models.Model):
 
     def action_approve(self):
         for record in self:
-            doctor = self.env['hr.hospital.doctor'].search([
-                ('user_id', '=', self.env.uid),
-            ], limit=1)
+            doctor = record.visit_id.doctor_id
+            if doctor.is_intern:
+                approver = doctor.mentor_id
+            else:
+                approver = doctor
             record.write({
                 'is_approved': True,
-                'approved_by_id': doctor.id if doctor else False,
+                'approved_by_id': approver.id if approver else False,
                 'approval_date': fields.Datetime.now(),
             })
         return True
