@@ -3,6 +3,12 @@ from odoo.exceptions import UserError
 
 
 class HrHospitalPatient(models.Model):
+    """Model representing a hospital patient.
+
+    Inherits from abstract.person for common personal fields.
+    Tracks medical information, visits, and doctor assignments.
+    """
+
     _name = 'hr.hospital.patient'
     _description = 'Hospital Patient'
     _inherit = ['abstract.person']
@@ -10,6 +16,10 @@ class HrHospitalPatient(models.Model):
     name = fields.Char(
         compute='_compute_name',
         store=True,
+    )
+    user_id = fields.Many2one(
+        comodel_name='res.users',
+        string='Portal User',
     )
     personal_doctor_id = fields.Many2one(
         comodel_name='hr.hospital.doctor',
@@ -93,15 +103,13 @@ class HrHospitalPatient(models.Model):
         return records
 
     def unlink(self):
-        for record in self:
-            if record.visit_ids.filtered(
+        """Delete patients, filtering out those with completed diagnosed visits."""
+        to_delete = self.filtered(
+            lambda p: not p.visit_ids.filtered(
                 lambda v: v.diagnosis_ids and v.state == 'completed'
-            ):
-                raise UserError(
-                    _('Cannot delete patient with completed visits '
-                      'that have diagnoses.')
-                )
-        return super().unlink()
+            )
+        )
+        return super(HrHospitalPatient, to_delete).unlink()
 
     def action_view_visits(self):
         self.ensure_one()

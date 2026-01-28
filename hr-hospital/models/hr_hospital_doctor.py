@@ -3,6 +3,12 @@ from odoo.exceptions import UserError, ValidationError
 
 
 class HrHospitalDoctor(models.Model):
+    """Model representing a hospital doctor.
+
+    Inherits from abstract.person for common personal fields.
+    Supports intern-mentor relationships and license tracking.
+    """
+
     _name = 'hr.hospital.doctor'
     _description = 'Hospital Doctor'
     _inherit = ['abstract.person']
@@ -89,6 +95,7 @@ class HrHospitalDoctor(models.Model):
 
     @api.depends('license_date')
     def _compute_experience_years(self):
+        """Calculate years of experience based on license issue date."""
         today = fields.Date.today()
         for record in self:
             if record.license_date:
@@ -107,6 +114,11 @@ class HrHospitalDoctor(models.Model):
 
     @api.constrains('is_intern', 'mentor_id')
     def _check_mentor(self):
+        """Validate mentor assignment rules.
+
+        Raises:
+            ValidationError: If mentor is an intern or doctor is self-assigned.
+        """
         for record in self:
             if record.mentor_id:
                 if record.mentor_id.is_intern:

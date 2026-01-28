@@ -3,6 +3,12 @@ from odoo.exceptions import UserError, ValidationError
 
 
 class HrHospitalVisit(models.Model):
+    """Model representing a hospital visit.
+
+    Tracks patient visits to doctors with scheduling, status management,
+    and diagnosis recording capabilities.
+    """
+
     _name = 'hr.hospital.visit'
     _description = 'Hospital Visit'
 
@@ -114,15 +120,12 @@ class HrHospitalVisit(models.Model):
         return super().write(vals)
 
     def unlink(self):
-        for record in self:
-            if record.diagnosis_ids:
-                raise UserError(
-                    _('Cannot delete visit with diagnoses. '
-                      'Please remove diagnoses first.')
-                )
-        return super().unlink()
+        """Delete visits without diagnoses only."""
+        to_delete = self.filtered(lambda v: not v.diagnosis_ids)
+        return super(HrHospitalVisit, to_delete).unlink()
 
     def action_complete(self):
+        """Mark visit as completed and record actual datetime."""
         for record in self:
             record.write({
                 'state': 'completed',
@@ -131,11 +134,13 @@ class HrHospitalVisit(models.Model):
         return True
 
     def action_cancel(self):
+        """Cancel the scheduled visit."""
         for record in self:
             record.write({'state': 'cancelled'})
         return True
 
     def action_no_show(self):
+        """Mark visit as no-show when patient doesn't appear."""
         for record in self:
             record.write({'state': 'no_show'})
         return True

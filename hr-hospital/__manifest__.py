@@ -2,9 +2,9 @@
     'name': 'Hospital Management',
     'summary': 'Hospital management system for patients, doctors and visits',
     'author': 'Anton Bardzheiev',
-    'website': 'http://hr.hospital',
-    'category': 'Human Resources',
-    'license': 'OPL-1',
+    'website': 'https://github.com/iBarzha/hr-hospital',
+    'category': 'Healthcare',
+    'license': 'LGPL-3',
     'version': '17.0.2.0.0',
 
     'depends': [
@@ -16,7 +16,9 @@
     },
 
     'data': [
+        'security/hr_hospital_groups.xml',
         'security/ir.model.access.csv',
+        'security/hr_hospital_rules.xml',
 
         'data/hr_hospital_disease_data.xml',
 
@@ -39,10 +41,8 @@
 
         'views/hr_hospital_menu.xml',
     ],
+
     'demo': [
         'demo/hr_hospital_demo.xml',
     ],
-
-    'installable': True,
-    'auto_install': False,
 }
