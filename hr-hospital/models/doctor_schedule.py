@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -53,5 +53,5 @@ class DoctorSchedule(models.Model):
             if record.time_from and record.time_to:
                 if record.time_to <= record.time_from:
                     raise ValidationError(
-                        self.env._('End time must be greater than start time!')
+                        _('End time must be greater than start time!')
                     )

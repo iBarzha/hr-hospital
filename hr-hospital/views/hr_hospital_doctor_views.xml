@@ -175,18 +175,20 @@
         <field name="name">hr.hospital.doctor.kanban</field>
         <field name="model">hr.hospital.doctor</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="speciality_id"
-                    class="o_kanban_mobile"
-                    quick_create_view="hr-hospital.view_hr_hospital_visit_form_quick">
+            <kanban default_group_by="speciality_id">
                 <field name="id"/>
-                <field name="full_name"/>
+                <field name="first_name"/>
+                <field name="last_name"/>
                 <field name="speciality_id"/>
-                <field name="phone"/>
-                <field name="email"/>
                 <field name="is_intern"/>
-                <field name="rating"/>
+                <field name="intern_ids"/>
                 <field name="image_128"/>
                 <templates>
+                    <t t-name="kanban-menu">
+                        <a role="menuitem" type="open" class="dropdown-item">View</a>
+                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                    </t>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_global_click">
                             <div class="o_kanban_image">
@@ -195,28 +197,17 @@
                             </div>
                             <div class="oe_kanban_details">
                                 <strong class="o_kanban_record_title">
-                                    <field name="full_name"/>
-                                    <span t-if="record.is_intern.raw_value"
-                                          class="badge bg-info ms-1">Intern</span>
+                                    <field name="last_name"/> <field name="first_name"/>
                                 </strong>
                                 <div class="o_kanban_record_subtitle">
                                     <field name="speciality_id"/>
                                 </div>
-                                <div>
-                                    <i class="fa fa-phone"/> <field name="phone"/>
-                                </div>
-                                <div>
-                                    <i class="fa fa-star text-warning"/>
-                                    <field name="rating"/>
-                                </div>
-                            </div>
-                            <div class="oe_kanban_bottom_right">
-                                <button name="action_quick_visit"
-                                        type="object"
-                                        class="btn btn-primary btn-sm"
-                                        title="Quick Visit">
-                                    <i class="fa fa-plus"/> Visit
-                                </button>
+                                <t t-if="record.intern_ids.raw_value.length > 0">
+                                    <div class="mt-2">
+                                        <strong>Interns:</strong>
+                                        <field name="intern_ids" widget="many2many_tags"/>
+                                    </div>
+                                </t>
                             </div>
                         </div>
                     </t>

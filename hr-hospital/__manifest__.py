@@ -35,6 +35,8 @@
         'wizards/doctor_schedule_wizard_views.xml',
         'wizards/patient_card_export_wizard_views.xml',
 
+        'report/hr_hospital_doctor_report.xml',
+
         'views/hr_hospital_menu.xml',
     ],
     'demo': [

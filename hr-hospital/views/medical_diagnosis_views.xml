@@ -87,7 +87,6 @@
                 <field name="disease_id" type="row"/>
                 <field name="disease_type" type="row"/>
                 <field name="diagnosis_date" interval="month" type="col"/>
-                <field name="id" type="measure" string="Count"/>
             </pivot>
         </field>
     </record>

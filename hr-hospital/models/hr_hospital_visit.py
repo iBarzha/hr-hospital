@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -84,8 +84,8 @@ class HrHospitalVisit(models.Model):
                 ], limit=1)
                 if duplicate:
                     raise ValidationError(
-                        self.env._('Cannot schedule the same patient to the '
-                                   'same doctor more than once per day!')
+                        _('Cannot schedule the same patient to the '
+                          'same doctor more than once per day!')
                     )
 
     @api.onchange('patient_id')
@@ -93,8 +93,8 @@ class HrHospitalVisit(models.Model):
         if self.patient_id and self.patient_id.allergies:
             return {
                 'warning': {
-                    'title': self.env._('Patient Allergies Warning'),
-                    'message': self.env._(
+                    'title': _('Patient Allergies Warning'),
+                    'message': _(
                         'This patient has allergies: %(allergies)s',
                         allergies=self.patient_id.allergies,
                     ),
@@ -108,8 +108,8 @@ class HrHospitalVisit(models.Model):
                 protected_fields = {'doctor_id', 'scheduled_datetime'}
                 if protected_fields & set(vals.keys()):
                     raise UserError(
-                        self.env._('Cannot modify doctor or date/time '
-                                   'for completed visits!')
+                        _('Cannot modify doctor or date/time '
+                          'for completed visits!')
                     )
         return super().write(vals)
 
@@ -117,8 +117,8 @@ class HrHospitalVisit(models.Model):
         for record in self:
             if record.diagnosis_ids:
                 raise UserError(
-                    self.env._('Cannot delete visit with diagnoses. '
-                               'Please remove diagnoses first.')
+                    _('Cannot delete visit with diagnoses. '
+                      'Please remove diagnoses first.')
                 )
         return super().unlink()
 

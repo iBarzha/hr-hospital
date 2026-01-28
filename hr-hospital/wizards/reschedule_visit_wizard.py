@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
@@ -24,7 +24,7 @@ class RescheduleVisitWizard(models.TransientModel):
 
         if self.visit_id.state == 'completed':
             raise UserError(
-                self.env._('Cannot reschedule a completed visit!')
+                _('Cannot reschedule a completed visit!')
             )
 
         self.visit_id.write({'state': 'cancelled'})

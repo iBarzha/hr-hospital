@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class DiseaseReportWizard(models.TransientModel):
@@ -47,7 +47,7 @@ class DiseaseReportWizard(models.TransientModel):
         diagnoses = self.env['medical.diagnosis'].search(domain)
 
         return {
-            'name': self.env._('Disease Report'),
+            'name': _('Disease Report'),
             'type': 'ir.actions.act_window',
             'res_model': 'medical.diagnosis',
             'view_mode': 'tree,pivot,graph,form',

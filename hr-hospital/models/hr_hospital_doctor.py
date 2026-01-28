@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -111,11 +111,11 @@ class HrHospitalDoctor(models.Model):
             if record.mentor_id:
                 if record.mentor_id.is_intern:
                     raise ValidationError(
-                        self.env._('Cannot assign an intern as a mentor!')
+                        _('Cannot assign an intern as a mentor!')
                     )
                 if record.mentor_id.id == record.id:
                     raise ValidationError(
-                        self.env._('Doctor cannot be their own mentor!')
+                        _('Doctor cannot be their own mentor!')
                     )
 
     @api.onchange('is_intern')
@@ -131,14 +131,14 @@ class HrHospitalDoctor(models.Model):
                 )
                 if active_visits:
                     raise UserError(
-                        self.env._('Cannot archive doctor with active visits!')
+                        _('Cannot archive doctor with active visits!')
                     )
         return super().write(vals)
 
     def action_quick_visit(self):
         self.ensure_one()
         return {
-            'name': self.env._('Create Visit'),
+            'name': _('Create Visit'),
             'type': 'ir.actions.act_window',
             'res_model': 'hr.hospital.visit',
             'view_mode': 'form',

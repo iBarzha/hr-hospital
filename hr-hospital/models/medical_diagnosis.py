@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class MedicalDiagnosis(models.Model):
@@ -73,8 +73,8 @@ class MedicalDiagnosis(models.Model):
         if self.visit_id and self.visit_id.patient_id.allergies:
             return {
                 'warning': {
-                    'title': self.env._('Patient Allergies'),
-                    'message': self.env._(
+                    'title': _('Patient Allergies'),
+                    'message': _(
                         'Patient has allergies: %(allergies)s',
                         allergies=self.visit_id.patient_id.allergies,
                     ),

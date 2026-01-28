@@ -1,6 +1,6 @@
 import re
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -68,8 +68,8 @@ class AbstractPerson(models.AbstractModel):
         for record in self:
             if record.phone and not phone_pattern.match(record.phone):
                 raise ValidationError(
-                    self.env._('Phone number can only contain digits, spaces, '
-                               'hyphens, plus sign and parentheses.')
+                    _('Phone number can only contain digits, spaces, '
+                      'hyphens, plus sign and parentheses.')
                 )
 
     @api.constrains('email')
@@ -80,7 +80,7 @@ class AbstractPerson(models.AbstractModel):
         for record in self:
             if record.email and not email_pattern.match(record.email):
                 raise ValidationError(
-                    self.env._('Please enter a valid email address.')
+                    _('Please enter a valid email address.')
                 )
 
     @api.constrains('age')
@@ -88,7 +88,7 @@ class AbstractPerson(models.AbstractModel):
         for record in self:
             if record.date_of_birth and record.age <= 0:
                 raise ValidationError(
-                    self.env._('Age must be greater than 0.')
+                    _('Age must be greater than 0.')
                 )
 
     @api.onchange('country_id')

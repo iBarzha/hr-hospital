@@ -151,7 +151,6 @@
             <pivot string="Visits Analysis">
                 <field name="doctor_id" type="row"/>
                 <field name="state" type="col"/>
-                <field name="id" type="measure" string="Count"/>
             </pivot>
         </field>
     </record>

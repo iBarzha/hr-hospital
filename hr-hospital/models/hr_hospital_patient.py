@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -71,7 +71,8 @@ class HrHospitalPatient(models.Model):
         if 'personal_doctor_id' in vals:
             for record in self:
                 old_doctor = record.personal_doctor_id
-                if old_doctor and old_doctor.id != vals.get('personal_doctor_id'):
+                new_doctor_id = vals.get('personal_doctor_id')
+                if old_doctor and old_doctor.id != new_doctor_id:
                     self.env['patient.doctor.history'].create({
                         'patient_id': record.id,
                         'doctor_id': vals['personal_doctor_id'],
@@ -97,8 +98,8 @@ class HrHospitalPatient(models.Model):
                 lambda v: v.diagnosis_ids and v.state == 'completed'
             ):
                 raise UserError(
-                    self.env._('Cannot delete patient with completed visits '
-                               'that have diagnoses.')
+                    _('Cannot delete patient with completed visits '
+                      'that have diagnoses.')
                 )
         return super().unlink()
 
@@ -106,7 +107,7 @@ class HrHospitalPatient(models.Model):
         self.ensure_one()
         patient_id = self.ids[0]
         return {
-            'name': self.env._('Visits of %s', self.name),
+            'name': _('Visits of %s', self.name),
             'type': 'ir.actions.act_window',
             'res_model': 'hr.hospital.visit',
             'view_mode': 'tree,form,calendar',
@@ -117,9 +118,9 @@ class HrHospitalPatient(models.Model):
     def action_quick_visit(self):
         self.ensure_one()
         patient_id = self.ids[0]
-        doctor_id = self.personal_doctor_id.ids[0] if self.personal_doctor_id else False
+        doctor_id = self.personal_doctor_id.id or False
         return {
-            'name': self.env._('Create Visit'),
+            'name': _('Create Visit'),
             'type': 'ir.actions.act_window',
             'res_model': 'hr.hospital.visit',
             'view_mode': 'form',
