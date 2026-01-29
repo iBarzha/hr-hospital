@@ -15,6 +15,8 @@
         'python': []
     },
 
+    'installable': True,
+
     'data': [
         'security/hr_hospital_groups.xml',
         'security/ir.model.access.csv',
