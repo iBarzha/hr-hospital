@@ -99,8 +99,8 @@
         <field name="name">Doctor Report</field>
         <field name="model">hr.hospital.doctor</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">hr-hospital.report_doctor_document</field>
-        <field name="report_file">hr-hospital.report_doctor_document</field>
+        <field name="report_name">hr_hospital.report_doctor_document</field>
+        <field name="report_file">hr_hospital.report_doctor_document</field>
         <field name="binding_model_id" ref="model_hr_hospital_doctor"/>
         <field name="binding_type">report</field>
         <field name="paperformat_id" ref="base.paperformat_euro"/>
