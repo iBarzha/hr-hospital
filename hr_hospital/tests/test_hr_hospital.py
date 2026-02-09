@@ -12,6 +12,7 @@ class TestHrHospitalDoctor(TransactionCase):
         super().setUpClass()
         cls.speciality = cls.env['doctor.speciality'].create({
             'name': 'Test Speciality',
+            'code': 'TEST01',
         })
         cls.doctor = cls.env['hr.hospital.doctor'].create({
             'first_name': 'John',
@@ -62,6 +63,7 @@ class TestHrHospitalVisit(TransactionCase):
         super().setUpClass()
         cls.speciality = cls.env['doctor.speciality'].create({
             'name': 'Test Speciality',
+            'code': 'TEST01',
         })
         cls.doctor = cls.env['hr.hospital.doctor'].create({
             'first_name': 'John',
@@ -101,6 +103,7 @@ class TestMedicalDiagnosis(TransactionCase):
         super().setUpClass()
         cls.speciality = cls.env['doctor.speciality'].create({
             'name': 'Test Speciality',
+            'code': 'TEST01',
         })
         cls.doctor = cls.env['hr.hospital.doctor'].create({
             'first_name': 'John',
